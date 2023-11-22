@@ -62,7 +62,7 @@ class ComfyCouple:
             mask_rect_second_width = width_first
             mask_rect_second_height = height
         elif orientation == "vertical":
-            height_first = int(width * center)
+            height_first = int(height * center)
 
             mask_rect_first_x = 0
             mask_rect_first_y = height_first
