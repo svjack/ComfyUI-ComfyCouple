@@ -1,25 +1,57 @@
-# attention-couple-ComfyUI
-プロンプトの領域指定を行うカスタムノードです。ComfyUIにはlatent coupleベースの領域指定法が存在しますが、こちらはUNet内のAttention層で領域分けします。
+# Comfy Couple
 
-# 使い方
-1. custom_nodesにくろーん
-2. latent coupleと同様のノードを作る。([参考](https://comfyui.creamlab.net/nodes/ConditioningSetMask))
-3. loaderからattention coupleのノードをロードしてMODELとCONDITIONINGを繋げる
-4. 画像を作る
+## What is
 
-使用例：[attention_couple.json](https://github.com/laksjdjf/attention-couple-ComfyUI/blob/main/attention_couple.json)
+This is simple custom node for [**ComfyUI**](https://github.com/comfyanonymous/ComfyUI) which helps to generate images of actual _couples_, easier.
 
-比較用として、modeをLatentにすると、latent coupleになります。といってもこのノードで何かするわけではなく入力をそのまま出力するモードになるだけです。
+If you want to draw two different characters together without blending their features, so you could try to check out this custom node.
 
-# 注意点
-実験段階でたぶん色々問題があります。
+| ⭕ with Comfy Couple | ❌ without Comfy Couple  |
+| --- | --- |
+| ![Ayaka x Lumine](docs/images/ayalumi-comfy-couple.png) | ![Ayaka x OC](docs/images/ayalumi-plain.png) |
+| _Lumine with her own hair style_ | _Lumine with hair style of Ayaka_ |
 
-1. どのプロンプトにも指定されていない領域があるとエラーが起こります。
-2. LoRAの領域指定は実装していないし見当もつきません。
-3. SDXLにおけるpooled outputは分割せずに1番目のプロンプトがそのまま入力されます。
+It's fork of [**laksjdjf/attention-couple-ComfyUI**](https://github.com/laksjdjf/attention-couple-ComfyUI), but implementing shortcut for the most of required nodes.
 
-# Latent couple(通常実装)との違い
-Latent coupleはプロンプトの数だけUNetの計算が必要になります。Attention coupleは計算量が比較的小さいCross Attention層のみ複数回計算が必要になり、計算時間は単純な生成とほとんど変わりません。またUNet内部で領域分けすることでより自然な分割が期待できますが、UNet内は画像を縮小してしまう層があるため、細かい分割がしづらいという欠点もあるようです。
+## Installation
 
-# 参考
-https://note.com/gcem156/n/nb3d516e376d7
+1. Change directory to custom nodes of **ComfyUI**:
+
+   ```bash
+   cd ~/ComfyUI/custom_nodes
+   ```
+
+2. Clone this repo here:
+
+   ```bash
+   git clone https://github.com/Danand/ComfyUI-ComfyCouple.git
+   ```
+
+3. Restart **ComfyUI**.
+
+## Usage
+
+1. Right click in workflow.
+2. Choose node: **loaders → Comfy Couple**
+3. Connect inputs, connect outputs, notice **two** positive prompts for left side and right side of image respectively.
+
+Example workflow is [here](workflows/workflow-comfy-couple.json).
+
+## Known issues
+
+It **is not** quite actual regional prompting.
+
+## Comparison with [**laksjdjf/attention-couple-ComfyUI**](https://github.com/laksjdjf/attention-couple-ComfyUI)
+
+Mask magic was replaced with comfy shortcut.
+
+| Comfy Couple | attention-couple-ComfyUI |
+| --- | --- |
+| ![Comfy Couple workflow](docs/images/workflow-comfy-couple.svg) | ![attention-couple-ComfyUI workflow](docs/images/workflow-attention-couple.svg) |
+
+## Credits
+
+- [**@laksjdjf**](https://github.com/laksjdjf) – [original repo](https://github.com/laksjdjf/attention-couple-ComfyUI).
+- [**@pythongosssss**](https://github.com/pythongosssss) – [ComfyUI-Custom-Scripts](https://github.com/pythongosssss/ComfyUI-Custom-Scripts) used for capturing SVG for `README.md`
+- [**@Meina**](https://civitai.com/user/Meina) – [MeinaMix V11](https://civitai.com/models/7240/meinamix) used in example.
+- [**@Numeratic**](https://civitai.com/user/Numeratic) – [Genshin Impact All In One](https://civitai.com/models/108649?modelVersionId=116970) used in example.
