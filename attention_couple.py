@@ -116,8 +116,8 @@ class AttentionCouple:
             masks_uncond = get_masks_from_q(self.negative_positive_masks[0], q_list[0], extra_options["original_shape"])
             masks_cond = get_masks_from_q(self.negative_positive_masks[1], q_list[0], extra_options["original_shape"])
 
-            context_uncond = torch.cat([cond for cond in self.negative_positive_conds[0]], dim=0)
-            context_cond = torch.cat([cond for cond in self.negative_positive_conds[1]], dim=0)
+            context_uncond = self.negative_positive_conds[0][0]
+            context_cond = self.negative_positive_conds[1][0]
             
             k_uncond = module.to_k(context_uncond)
             k_cond = module.to_k(context_cond)
@@ -138,8 +138,6 @@ class AttentionCouple:
                     length = len_neg
 
                 q_target = q_list[i].repeat(length, 1, 1)
-                k = torch.cat([k[i].unsqueeze(0).repeat(b,1,1) for i in range(length)], dim=0)
-                v = torch.cat([v[i].unsqueeze(0).repeat(b,1,1) for i in range(length)], dim=0)
 
                 qkv = optimized_attention(q_target, k, v, extra_options["n_heads"])
                 qkv = qkv * masks
