@@ -139,6 +139,61 @@ Image.open("ComfyUI/output/ComfyUI_00002_.png")
 
 ![linghua_ying_couple](https://github.com/user-attachments/assets/f903516b-24cb-42a1-8788-997b880d95e4)
 
+## Additional Workflows
+
+### Workflow for Generating a Single Character Image
+#### https://civitai.com/images/31409496
+
+To generate a single character image using the `tPonynai3V65.u99W.safetensors` model, follow these steps:
+
+1. Download the model:
+   ```sh
+   wget https://civitai-delivery-worker-prod.5ac0637cfd0766c97916cefa3764fbdf.r2.cloudflarestorage.com/model/349177/tPonynai3V65.u99W.safetensors?X-Amz-Expires=86400&response-content-disposition=attachment%3B%20filename%3D%22tPonynai3_v65.safetensors%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=e01358d793ad6966166af8b3064953ad/20241104/us-east-1/s3/aws4_request&X-Amz-Date=20241104T135443Z&X-Amz-SignedHeaders=host&X-Amz-Signature=30e8059154d5baa6f57a42ccae1ac47e82847da344d60d738bb43e7e660732dc -O tPonynai3V65.u99W.safetensors
+   ```
+
+2. Run the following workflow:
+   ```python
+   with Workflow():
+       model, clip, vae = CheckpointLoaderSimple('tPonynai3V65.u99W.safetensors')
+       clip = CLIPSetLastLayer(clip, -2)
+       model, clip = LoraLoader(model, clip, 'mondstadt_background-ponyxl-v11h.safetensors', 1, 1)
+       model, clip = LoraLoader(model, clip, 'Collei_v1-000010.safetensors', 1, 1)
+       conditioning = CLIPTextEncode('score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, official art, (1girl, solo, looking at viewer, cowboy shot:1.2),  <lora:mondstadt_background-ponyxl-v11h:0.8>, field, mondstadt, outdoors, scenery, landscape, sky, cloud, nature, tree, grass, rock, bush, water, mountain,   <lora:Collei_v1-000010:0.9>, colleidef, green hair, medium hair, purple eyes, hair ornament, hair between eyes, ahoge, small breasts, earrings, single earring, jewelry, green capelet, black dress, detached sleeves, puffy long sleeves, backless dress, bridal gauntlets, crossed bangs', clip)
+       conditioning2 = CLIPTextEncode('score_4, score_5, score_6, source_pony, source_furry, source_cartoon, render, fewer digits, extra digits, jpeg artifacts, watermark, greyscale, censorship, amputee, no humans, 3d, giantess', clip)
+       latent = EmptyLatentImage(1024, 1024, 1)
+       latent = KSampler(model, 1123713238173417, 50, 5, 'euler', 'normal', conditioning, conditioning2, latent, 1)
+       image = VAEDecode(latent, vae)
+       SaveImage(image, 'ComfyUI')
+   ```
+![kelai (1)](https://github.com/user-attachments/assets/e55d140f-f461-4793-b900-e9f9cc3fff8b)
+
+
+### Workflow for Generating a Background Image
+#### https://civitai.com/images/31409753
+
+To generate a background image using the `autismmixASB1.s0JN.safetensors` model, follow these steps:
+
+1. Download the model:
+   ```sh
+   wget https://civitai-delivery-worker-prod.5ac0637cfd0766c97916cefa3764fbdf.r2.cloudflarestorage.com/model/3048970/autismmixASB1.s0JN.safetensors?X-Amz-Expires=86400&response-content-disposition=attachment%3B%20filename%3D%22autismmixSDXL_autismmixConfetti.safetensors%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=e01358d793ad6966166af8b3064953ad/20241104/us-east-1/s3/aws4_request&X-Amz-Date=20241104T142802Z&X-Amz-SignedHeaders=host&X-Amz-Signature=e45d78a9ffff634bfbc90d4e9a155a108b2e455d44c5eda4f11985f596dd7a3c -O autismmixASB1.s0JN.safetensors
+   ```
+
+2. Run the following workflow:
+   ```python
+   with Workflow():
+       model, clip, vae = CheckpointLoaderSimple('autismmixASB1.s0JN.safetensors')
+       model, clip = LoraLoader(model, clip, 'mondstadt_background-ponyxl-v11h.safetensors', 1, 1)
+       conditioning = CLIPTextEncode('source_anime, official art,  <lora:mondstadt_background-ponyxl-v11h:1>, forest, mondstadt, scenery, outdoors, landscape, sky, cloud, nature, tree, grass, rock, bush, plant, flower, leaf, log, river', clip)
+       conditioning2 = CLIPTextEncode('source_pony, source_furry, source_cartoon, render, fewer digits, extra digits, jpeg artifacts, watermark, greyscale, censorship, amputee', clip)
+       latent = EmptyLatentImage(1024, 1024, 1)
+       latent = KSampler(model, 1123713238173417, 50, 8, 'euler', 'normal', conditioning, conditioning2, latent, 1)
+       image = VAEDecode(latent, vae)
+       SaveImage(image, 'ComfyUI')
+   ```
+
+![memgde_background](https://github.com/user-attachments/assets/cc3ef2b3-babd-4ed7-9f84-f4a22b0d7f4d)
+
+
 This README provides a comprehensive guide to installing and using the ComfyCouple custom nodes for generating couple images in ComfyUI.
 
 ## Installation
