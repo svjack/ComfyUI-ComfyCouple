@@ -71,8 +71,8 @@ with Workflow():
 
 To run the workflow, you need to download the following models:
 
-- `meinamix_meinaV11.safetensors` from [CivitAI](https://civitai.com/models/108649?modelVersionId=116970)
-- `genshinfull1-000006.safetensors` from [Hugging Face](https://huggingface.co/NickYuan/sd_models/tree/main/models/Stable-diffusion)
+- `genshinfull1-000006.safetensors` from [CivitAI](https://civitai.com/models/108649?modelVersionId=116970)
+- `meinamix_meinaV11.safetensors` from [Hugging Face](https://huggingface.co/NickYuan/sd_models/tree/main/models/Stable-diffusion)
 
 You can download `meinamix_meinaV11.safetensors` using the following command:
 
