@@ -13,6 +13,58 @@ If you want to draw two different characters together without blending their fea
 
 It's fork of [**laksjdjf/attention-couple-ComfyUI**](https://github.com/laksjdjf/attention-couple-ComfyUI), but implementing shortcut for the most of required nodes.
 
+# ComfyScript
+
+ComfyScript is a custom node for [ComfyUI](https://github.com/comfyanonymous/ComfyUI) that allows you to write and execute Python scripts within the ComfyUI workflow.
+
+## Installation
+
+### Step 1: Install ComfyUI
+
+If you haven't already installed ComfyUI, you can do so by following these steps:
+
+```bash
+pip install comfy-cli
+comfy --here install
+```
+
+### Step 2: Clone the ComfyScript Repository
+
+Navigate to the `custom_nodes` directory within your ComfyUI installation and clone the ComfyScript repository:
+
+```bash
+cd ComfyUI/custom_nodes
+git clone https://github.com/Chaoses-Ib/ComfyScript.git
+cd ComfyScript
+```
+
+### Step 3: Install ComfyScript
+
+Install the required dependencies for ComfyScript:
+
+```bash
+python -m pip install -e ".[default]"
+```
+
+If you plan to use the CLI (Command Line Interface) features, you can install additional dependencies:
+
+```bash
+pip install -e ".[default,cli]"
+```
+
+### Step 4: Update aiohttp
+
+ComfyScript may require a specific version of the `aiohttp` library. If you encounter issues, you can update `aiohttp` to the latest version:
+
+```bash
+pip uninstall aiohttp
+pip install -U aiohttp
+```
+
+## Usage
+
+Once installed, you can use the ComfyScript nodes in your ComfyUI workflows to execute Python scripts directly within the UI.
+
 # ComfyUI-ComfyCouple
 
 This repository contains custom nodes and workflows for ComfyUI, a powerful tool for generating and manipulating images using machine learning models. The primary focus of this repository is to provide a workflow for generating couple images using the ComfyCouple node.
