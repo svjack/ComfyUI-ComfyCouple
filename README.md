@@ -219,6 +219,24 @@ To generate a single character image using the `tPonynai3V65.u99W.safetensors` m
    ```
 ![kelai (1)](https://github.com/user-attachments/assets/e55d140f-f461-4793-b900-e9f9cc3fff8b)
 
+#### https://civitai.com/models/721863/genshin-impact-in-game-style-pony
+
+2. Run the following workflow:
+   ```python
+   with Workflow():
+       model, clip, vae = CheckpointLoaderSimple('autismmixSDXL_autismmixConfetti.safetensors')
+       clip = CLIPSetLastLayer(clip, -2)
+       model, clip = LoraLoader(model, clip, 'Genshin_Impact_3D_Style.safetensors', 1, 1)
+       conditioning = CLIPTextEncode('score_9, score_8_up, score_7_up, G3NSHIN, 1girl, keqing \(genshin impact\),', clip)
+       conditioning2 = CLIPTextEncode('score_5, score_4, censored, watermark, signature, ', clip)
+       latent = EmptyLatentImage(1024, 1024, 1)
+       latent = KSampler(model, 10, 50, 6, 'dpm_2', 'normal', conditioning, conditioning2, latent, 1)
+       image = VAEDecode(latent, vae)
+       SaveImage(image, 'ComfyUI')
+   ```
+
+
+![keqing0](https://github.com/user-attachments/assets/f282bb0a-eeae-4e60-8576-8ea0b9a1df02)
 
 ### Workflow for Generating a Background Image
 #### https://civitai.com/images/31409753
