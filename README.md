@@ -83,7 +83,12 @@ To install the ComfyCouple custom nodes, follow these steps:
    git clone https://github.com/Danand/ComfyUI-ComfyCouple.git
    ```
 
-3. Restart your ComfyUI script to load the new custom nodes.
+3. Restart your ComfyUI script to load the new custom nodes. (should in python shell)
+   ```python
+   from comfy_script.runtime import *
+   load()
+   from comfy_script.runtime.nodes import *
+   ```
 
 ## Workflow Example
 
